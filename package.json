@@ -1,0 +1,8 @@
+{
+  "name": "extraction-evaluation",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "playwright-chromium": "^1.44.1"
+  }
+}
