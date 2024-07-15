@@ -1,3 +1,5 @@
+import { loadavg } from "node:os";
+
 const target = process.env.target;
 if (!target) {
     console.error("Not target specified");
@@ -27,17 +29,17 @@ function print(total, durations) {
     console.log(`  - max ${Math.max(...durations)}ms`);
     console.log(`  - min ${Math.min(...durations)}ms`);
     console.log(`  - avg ${durations.reduce((a, c) => a + c, 0) / durations.length}ms`);
+    console.log(`- cpu ${loadavg()}`);
+    console.log(`- memory ${process.memoryUsage().heapUsed / 1024 / 1024}`);
 }
 
 (async () => {
     const durations = [];
     const begin = Date.now();
     for (let i = 0; i < iterations; i++) {
-        const start = Date.now();
         const result = await scrape(host);
-        const duration = Date.now() - start;
-        durations.push(duration);
-        console.log(`${i + 1} ${duration}ms: ${result}`);
+        durations.push(result.time);
+        console.log(`${i + 1} time:${result.time}ms result:${result.data}`);
     }
     const total = Date.now() - begin;
     print(total, durations);
